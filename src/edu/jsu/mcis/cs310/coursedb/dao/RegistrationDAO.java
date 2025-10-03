@@ -27,8 +27,16 @@ public class RegistrationDAO {
             
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
+                // Registration Query
+                String registrationQuery = "INSERT INTO registration(studentid, termid, crn) VALUES (?, ?, ?);";
+                ps = conn.prepareStatement(registrationQuery);
+                // This set variables to int values
+                ps.setInt(1, studentid);
+                ps.setInt(2, termid);
+                ps.setInt(3, crn);
                 
+                int i = ps.executeUpdate();
+                result = (i > 0);
             }
             
         }
@@ -58,8 +66,15 @@ public class RegistrationDAO {
             
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
+                String deleteQuery = "DELETE FROM registration WHERE studentid = ? AND termid = ? AND crn = ?;";
+                ps = conn.prepareStatement(deleteQuery);
                 
+                ps.setInt(1, studentid);
+                ps.setInt(2, termid);
+                ps.setInt(3, crn);
+                
+                int i = ps.executeUpdate();
+                result = (i > 0);
             }
             
         }
@@ -88,7 +103,14 @@ public class RegistrationDAO {
             
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
+                String allDeleteQuery = "DELETE FROM registration WHERE studentid = ? AND termid = ?;";
+                ps = conn.prepareStatement(allDeleteQuery);
+                
+                ps.setInt(1, studentid);
+                ps.setInt(2, termid);
+                
+                int i = ps.executeUpdate();
+                result = (i > 0);
                 
             }
             
@@ -120,7 +142,20 @@ public class RegistrationDAO {
             
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
+                // ListQuery
+                String listQuery = "SELECT studentid, termid, crn FROM registration WHERE studentid = ? AND termid = ? ORDER BY crn;";
+                
+                ps = conn.prepareStatement(listQuery);
+                
+                // Sets variables to int values
+                ps.setInt(1, studentid);
+                ps.setInt(2, termid);
+                
+                // Reset null
+                rs = ps.executeQuery();
+                
+                // Return as JSON
+                result = DAOUtility.getResultSetAsJson(rs);
                 
             }
             
